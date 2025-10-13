@@ -7,7 +7,7 @@
     "interface_num": 2,
     "task": {
         "user_id": "7",
-        "instruction": "You are Renee Mosley (reneemosley@company.com), an HR Manager. You need to provision a user account John Donald (johnd@company.com) with the role of Employee with phone number +19178015974 and enable mfa ensure the action is properly logged.",
+        "instruction": "You are Renee Mosley (reneemosley@company.com), an HR Manager. You need to provision a user account John Donald (johnd@company.com), with the role of Employee with phone number +19178015974, and enable MFA to protect the user account",
         "actions": [
             {
                 "name": "search_user_employee_entities",
@@ -129,14 +129,6 @@
                 }
             },
             {
-                "from": "validate_approval",
-                "to": "handle_user",
-                "connection": {
-                    "output": "approval_valid",
-                    "input": "approval_validation"
-                }
-            },
-            {
                 "from": "instruction",
                 "to": "handle_user",
                 "connection": {
@@ -156,11 +148,11 @@
                 "from": "instruction",
                 "to": "handle_audit_logs",
                 "connection": {
-                    "output": "action, operation, reference_type",
-                    "input": "action, operation, reference_type"
+                    "output": "action, operation, reference_type, old_value",
+                    "input": "action, operation, reference_type, old_value"
                 }
             }
         ],
-        "num_edges": 7
+        "num_edges": 6
     }
 }
