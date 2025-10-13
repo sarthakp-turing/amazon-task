@@ -1,0 +1,166 @@
+{
+    "env": "hr_experts",
+    "model_provider": "fireworks",
+    "model": "qwen3-coder-480b-a35b-instruct",
+    "num_trials": 3,
+    "temperature": 1,
+    "interface_num": 2,
+    "task": {
+        "user_id": "7",
+        "instruction": "You are Renee Mosley (reneemosley@company.com), an HR Manager. You need to provision a user account John Donald (johnd@company.com) with the role of Employee with phone number +19178015974 and enable mfa ensure the action is properly logged.",
+        "actions": [
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "email": "reneemosley@company.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2024-01-05T11:36:06",
+                            "email": "reneemosley@company.com",
+                            "first_name": "Renee",
+                            "last_name": "Mosley",
+                            "mfa_enabled": false,
+                            "phone_number": "+19386974032",
+                            "role": "hr_manager",
+                            "status": "active",
+                            "updated_at": "2025-01-10T07:03:34",
+                            "user_id": "7"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "validate_approval",
+                "arguments": {
+                    "action": "user_provisioning",
+                    "requester_email": "reneemosley@company.com"
+                },
+                "output": {
+                    "approval_valid": true,
+                    "approved_by": "hr_director",
+                    "message": "Approved by authorized role: hr_director"
+                }
+            },
+            {
+                "name": "handle_user",
+                "arguments": {
+                    "action": "create",
+                    "email": "johnd@company.com",
+                    "first_name": "John",
+                    "last_name": "Donald",
+                    "mfa_enabled": true,
+                    "phone_number": "+19178015974",
+                    "role": "employee"
+                },
+                "output": {
+                    "message": "User created successfully with ID 147",
+                    "success": true,
+                    "user_data": {
+                        "created_at": "2025-10-01T12:00:00",
+                        "email": "johnd@company.com",
+                        "first_name": "John",
+                        "last_name": "Donald",
+                        "mfa_enabled": true,
+                        "phone_number": "+19178015974",
+                        "role": "employee",
+                        "status": "active",
+                        "updated_at": "2025-10-01T12:00:00",
+                        "user_id": "147"
+                    },
+                    "user_id": "147"
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "create",
+                    "new_value": "147",
+                    "old_value": "null",
+                    "operation": "create",
+                    "reference_id": "147",
+                    "reference_type": "user_provisioning",
+                    "user_id": "147"
+                },
+                "output": {
+                    "action": "create",
+                    "field_name": null,
+                    "log_id": "2887",
+                    "new_value": "147",
+                    "old_value": "null",
+                    "reference_id": "147",
+                    "reference_type": "user_provisioning",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "147"
+                }
+            }
+        ],
+        "outputs": [],
+        "edges": [
+            {
+                "from": "instruction",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "email",
+                    "input": "email"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "action",
+                    "input": "action"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "requester_email"
+                }
+            },
+            {
+                "from": "validate_approval",
+                "to": "handle_user",
+                "connection": {
+                    "output": "approval_valid",
+                    "input": "approval_validation"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_user",
+                "connection": {
+                    "output": "action, email, first_name, last_name, phone_number, role, mfa_enabled",
+                    "input": "action, email, first_name, last_name, phone_number, role, mfa_enabled"
+                }
+            },
+            {
+                "from": "handle_user",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "user_data.user_id, user_id",
+                    "input": "new_value, reference_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "action, operation, reference_type",
+                    "input": "action, operation, reference_type"
+                }
+            }
+        ],
+        "num_edges": 7
+    }
+}
