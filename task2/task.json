@@ -14,7 +14,8 @@
                 "arguments": {
                     "entity_type": "users",
                     "filters": {
-                        "first_name":"Renee"
+                        "first_name": "Renee",
+                        "last_name": "Mosley"
                     }
                 },
                 "output": {
@@ -82,8 +83,6 @@
                 "name": "handle_audit_logs",
                 "arguments": {
                     "action": "create",
-                    "new_value": "147",
-                    "old_value": "null",
                     "operation": "create",
                     "reference_id": "147",
                     "reference_type": "user_provisioning",
@@ -93,8 +92,8 @@
                     "action": "create",
                     "field_name": null,
                     "log_id": "2885",
-                    "new_value": "147",
-                    "old_value": "null",
+                    "new_value": null,
+                    "old_value": null,
                     "reference_id": "147",
                     "reference_type": "user_provisioning",
                     "timestamp": "2025-10-01T12:00:00",
@@ -108,8 +107,8 @@
                 "from": "instruction",
                 "to": "search_user_employee_entities",
                 "connection": {
-                    "output": "entity_type, first_name",
-                    "input": "entity_type, first_name"
+                    "output": "entity_type, first_name, last_name",
+                    "input": "entity_type, first_name, last_name"
                 }
             },
             {
@@ -140,8 +139,8 @@
                 "from": "handle_user",
                 "to": "handle_audit_logs",
                 "connection": {
-                    "output": "user_data.user_id, user_id",
-                    "input": "new_value, reference_id"
+                    "output": "user_id",
+                    "input": "reference_id"
                 }
             },
             {
@@ -156,8 +155,8 @@
                 "from": "instruction",
                 "to": "handle_audit_logs",
                 "connection": {
-                    "output": "action, operation, reference_type, old_value",
-                    "input": "action, operation, reference_type, old_value"
+                    "output": "action, operation, reference_type",
+                    "input": "action, operation, reference_type"
                 }
             }
         ],
