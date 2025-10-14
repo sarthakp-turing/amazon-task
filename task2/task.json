@@ -7,14 +7,14 @@
     "interface_num": 2,
     "task": {
         "user_id": "7",
-        "instruction": "You are Renee Mosley (user id 7), an HR Manager. You need to provision a user account John Donald (johnd@company.com), with the role of Employee with phone number +19178015974, and enable MFA to protect the user account",
+        "instruction": "You are Renee Mosley, an HR Manager. You need to provision a user account John Donald (johnd@company.com), with the role of Employee with phone number +19178015974, and enable MFA to protect the user account",
         "actions": [
             {
                 "name": "search_user_employee_entities",
                 "arguments": {
                     "entity_type": "users",
                     "filters": {
-                        "user_id": "7"
+                        "first_name":"Renee"
                     }
                 },
                 "output": {
@@ -108,8 +108,8 @@
                 "from": "instruction",
                 "to": "search_user_employee_entities",
                 "connection": {
-                    "output": "email, user_id",
-                    "input": "email, user_id"
+                    "output": "entity_type, first_name",
+                    "input": "entity_type, first_name"
                 }
             },
             {
