@@ -7,14 +7,14 @@
     "interface_num": 2,
     "task": {
         "user_id": "7",
-        "instruction": "You are Renee Mosley (reneemosley@company.com), an HR Manager. You need to provision a user account John Donald (johnd@company.com), with the role of Employee with phone number +19178015974, and enable MFA to protect the user account",
+        "instruction": "You are Renee Mosley (user id 7), an HR Manager. You need to provision a user account John Donald (johnd@company.com), with the role of Employee with phone number +19178015974, and enable MFA to protect the user account",
         "actions": [
             {
                 "name": "search_user_employee_entities",
                 "arguments": {
                     "entity_type": "users",
                     "filters": {
-                        "email": "reneemosley@company.com"
+                        "user_id": "7"
                     }
                 },
                 "output": {
@@ -108,16 +108,24 @@
                 "from": "instruction",
                 "to": "search_user_employee_entities",
                 "connection": {
-                    "output": "email, entity_type",
-                    "input": "email, entity_type"
+                    "output": "email, user_id",
+                    "input": "email, user_id"
                 }
             },
             {
                 "from": "instruction",
                 "to": "validate_approval",
                 "connection": {
-                    "output": "action, email",
-                    "input": "action, requester_email"
+                    "output": "action",
+                    "input": "action"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "requester_email"
                 }
             },
             {
@@ -153,6 +161,6 @@
                 }
             }
         ],
-        "num_edges": 6
+        "num_edges": 7
     }
 }
