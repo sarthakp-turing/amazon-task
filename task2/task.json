@@ -108,7 +108,7 @@
                 "to": "search_user_employee_entities",
                 "connection": {
                     "output": "entity_type, first_name, last_name",
-                    "input": "entity_type, first_name, last_name"
+                    "input": "entity_type, filters.first_name, filters.last_name"
                 }
             },
             {
