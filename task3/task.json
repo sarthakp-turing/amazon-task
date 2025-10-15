@@ -7,14 +7,15 @@
     "interface_num": 2,
     "task": {
         "user_id": "1",
-        "instruction": "You are Jonny Jones, a director of human resources (johnny.jones@protonmail.com).  You would want to designate Laura Hardy as the new manager of the Operations Department by updating it with department id 6.",
+        "instruction": "You are Jonny Jones, a director of human resources.  You would want to designate Laura Hardy(lhardy@gmail.com) as the new manager of the Operations Department by updating it with department id 6.",
         "actions": [
             {
                 "name": "search_user_employee_entities",
                 "arguments": {
                     "entity_type": "users",
                     "filters": {
-                        "email": "johnny.jones@protonmail.com"
+                        "first_name": "Johnny",
+                        "last_name": "Jones"
                     }
                 },
                 "output": {
@@ -42,8 +43,7 @@
                 "arguments": {
                     "entity_type": "users",
                     "filters": {
-                        "first_name": "Laura",
-                        "last_name": "Hardy"
+                        "email": "lhardy@gmail.com"
                     }
                 },
                 "output": {
@@ -186,16 +186,16 @@
                 "from": "instruction",
                 "to": "search_user_employee_entities",
                 "connection": {
-                    "output": "email, entity_type",
-                    "input": "filters.email, entity_type"
+                    "output": "first_name, last_name",
+                    "input": "filters.first_name, filters.last_name"
                 }
             },
             {
                 "from": "instruction",
                 "to": "search_user_employee_entities",
                 "connection": {
-                    "output": "first_name, last_name",
-                    "input": "filters.first_name, filters.last_name"
+                    "output": "email, entity_type",
+                    "input": "filters.email, entity_type"
                 }
             },
             {
