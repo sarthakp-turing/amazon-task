@@ -1,0 +1,203 @@
+{
+    "env": "hr_experts",
+    "model_provider": "fireworks",
+    "model": "qwen3-coder-480b-a35b-instruct",
+    "num_trials": 3,
+    "temperature": 1,
+    "interface_num": 2,
+    "task": {
+        "user_id": "2",
+        "instruction": "You are Tiffany Sandoval. You need to update the name of the Kubernetes to Cloud Infrastructure Management skill in the system.",
+        "actions": [
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "first_name": "Tiffany",
+                        "last_name": "Sandoval"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2023-10-29T07:08:15",
+                            "email": "tsandoval@hotmail.com",
+                            "first_name": "Tiffany",
+                            "last_name": "Sandoval",
+                            "mfa_enabled": true,
+                            "phone_number": "+16465221064",
+                            "role": "hr_director",
+                            "status": "active",
+                            "updated_at": "2025-04-19T05:39:06",
+                            "user_id": "2"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "validate_approval",
+                "arguments": {
+                    "action": "skills_management",
+                    "requester_email": "tsandoval@hotmail.com"
+                },
+                "output": {
+                    "approval_valid": true,
+                    "message": "Role 'hr_director' is directly authorized for action 'skills_management'"
+                }
+            },
+            {
+                "name": "search_job_entities",
+                "arguments": {
+                    "entity_type": "skills",
+                    "filters": {
+                        "skill_name": "Kubernetes"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "skills",
+                    "results": [
+                        {
+                            "skill_id": "12",
+                            "skill_name": "Kubernetes",
+                            "status": "active"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_skill",
+                "arguments": {
+                    "action": "update",
+                    "skill_id": "12",
+                    "skill_name": "Cloud Infrastructure Management",
+                    "status": "active"
+                },
+                "output": {
+                    "message": "Skill with ID '12' updated successfully",
+                    "skill_data": {
+                        "skill_id": "12",
+                        "skill_name": "Cloud Infrastructure Management",
+                        "status": "active",
+                        "updated_at": "2025-10-01T12:00:00"
+                    },
+                    "skill_id": "12",
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "update",
+                    "field_name": "skill_name",
+                    "new_value": "Cloud Infrastructure Management",
+                    "old_value": "Kubernetes",
+                    "operation": "create",
+                    "reference_id": "12",
+                    "reference_type": "skills",
+                    "user_id": "2"
+                },
+                "output": {
+                    "action": "update",
+                    "field_name": "skill_name",
+                    "log_id": "2885",
+                    "new_value": "Cloud Infrastructure Management",
+                    "old_value": "Kubernetes",
+                    "reference_id": "12",
+                    "reference_type": "skills",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "2"
+                }
+            }
+        ],
+        "outputs": [],
+        "edges": [
+            {
+                "from": "instruction",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "first_name, last_name, entity_type",
+                    "input": "filters.first_name, filters.last_name, entity_type"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "requester_email"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "action",
+                    "input": "action"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "search_job_entities",
+                "connection": {
+                    "output": "skill_name, entity_type",
+                    "input": "filters.skill_name, entity_type"
+                }
+            },
+            {
+                "from": "search_job_entities",
+                "to": "handle_skill",
+                "connection": {
+                    "output": "results[0].skill_id",
+                    "input": "skill_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_skill",
+                "connection": {
+                    "output": "action, skill_name, status",
+                    "input": "action, skill_name, status"
+                }
+            },
+            {
+                "from": "search_job_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].skill_name",
+                    "input": "old_value"
+                }
+            },
+            {
+                "from": "handle_skill",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "skill_id",
+                    "input": "reference_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "user_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "action, field_name, operation, reference_type, new_value",
+                    "input": "action, field_name, operation, reference_type, new_value"
+                }
+            }
+        ],
+        "num_edges": 10
+    }
+}
