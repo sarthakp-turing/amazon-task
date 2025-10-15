@@ -1,0 +1,351 @@
+{
+    "env": "hr_experts",
+    "model_provider": "fireworks",
+    "model": "qwen3-coder-480b-a35b-instruct",
+    "num_trials": 3,
+    "temperature": 1,
+    "interface_num": 2,
+    "task": {
+        "user_id": "2",
+        "instruction": "You are Tiffany Sandoval (tsandoval@hotmail.com), an HR Director. You need to onboard user account Douglas Morgan (douglas27@company.com) into the position ID 203 with a hire date of October 20, 2025, setting employment status to “active” and ensuring audit logging is completed.",
+        "actions": [
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "email": "tsandoval@hotmail.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2023-10-29T07:08:15",
+                            "email": "tsandoval@hotmail.com",
+                            "first_name": "Tiffany",
+                            "last_name": "Sandoval",
+                            "mfa_enabled": true,
+                            "phone_number": "+16465221064",
+                            "role": "hr_director",
+                            "status": "active",
+                            "updated_at": "2025-04-19T05:39:06",
+                            "user_id": "2"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "validate_approval",
+                "arguments": {
+                    "action": "employee_onboarding",
+                    "requester_email": "tsandoval@hotmail.com"
+                },
+                "output": {
+                    "approval_valid": true,
+                    "approved_by": [
+                        "compliance_officer",
+                        "hr_manager"
+                    ],
+                    "message": "All required approvals received from: compliance_officer, hr_manager"
+                }
+            },
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "email": "douglas27@company.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2022-01-05T20:11:30",
+                            "email": "douglas27@company.com",
+                            "first_name": "Douglas",
+                            "last_name": "Morgan",
+                            "mfa_enabled": true,
+                            "phone_number": "+12123398617",
+                            "role": "recruiter",
+                            "status": "inactive",
+                            "updated_at": "2025-05-10T03:29:03",
+                            "user_id": "15"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "employees",
+                    "filters": {
+                        "user_id": "15"
+                    }
+                },
+                "output": {
+                    "count": 0,
+                    "entity_type": "employees",
+                    "results": [],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_job_entities",
+                "arguments": {
+                    "entity_type": "job_positions",
+                    "filters": {
+                        "position_id": "204"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "job_positions",
+                    "results": [
+                        {
+                            "created_at": "2024-05-13T03:13:15",
+                            "department_id": "46",
+                            "employment_type": "contract",
+                            "hourly_rate_max": 125.0,
+                            "hourly_rate_min": 85.0,
+                            "job_level": "manager",
+                            "position_id": "204",
+                            "status": "closed",
+                            "title": "Strategy Manager",
+                            "updated_at": "2024-11-18T12:16:18"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_employee",
+                "arguments": {
+                    "action": "create",
+                    "employment_status": "active",
+                    "hire_date": "2025-10-20",
+                    "position_id": "204",
+                    "user_id": "15"
+                },
+                "output": {
+                    "employee_data": {
+                        "address": null,
+                        "created_at": "2025-10-01T12:00:00",
+                        "date_of_birth": null,
+                        "employee_id": "101",
+                        "employment_status": "active",
+                        "hire_date": "2025-10-20",
+                        "hourly_rate": null,
+                        "manager_id": null,
+                        "position_id": "204",
+                        "updated_at": "2025-10-01T12:00:00",
+                        "user_id": "15"
+                    },
+                    "employee_id": "101",
+                    "message": "Employee record created successfully for user ID '15'",
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_user",
+                "arguments": {
+                    "action": "update",
+                    "email": "douglas27@company.com",
+                    "role": "recruiter",
+                    "status": "active",
+                    "user_id": "15"
+                },
+                "output": {
+                    "message": "User 15 updated successfully",
+                    "success": true,
+                    "updated_fields": [
+                        "email",
+                        "role",
+                        "status"
+                    ],
+                    "user_data": {
+                        "created_at": "2022-01-05T20:11:30",
+                        "email": "douglas27@company.com",
+                        "first_name": "Douglas",
+                        "last_name": "Morgan",
+                        "mfa_enabled": true,
+                        "phone_number": "+12123398617",
+                        "role": "recruiter",
+                        "status": "active",
+                        "updated_at": "2025-10-01T12:00:00",
+                        "user_id": "15"
+                    }
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "create",
+                    "field_name": "employee_id",
+                    "new_value": "101",
+                    "old_value": "null",
+                    "operation": "create",
+                    "reference_id": "101",
+                    "reference_type": "employees",
+                    "user_id": "15"
+                },
+                "output": {
+                    "action": "create",
+                    "field_name": "employee_id",
+                    "log_id": "2885",
+                    "new_value": "101",
+                    "old_value": "null",
+                    "reference_id": "101",
+                    "reference_type": "employees",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "15"
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "update",
+                    "field_name": "status",
+                    "new_value": "active",
+                    "old_value": "inactive",
+                    "operation": "create",
+                    "reference_id": "15",
+                    "reference_type": "users",
+                    "user_id": "15"
+                },
+                "output": {
+                    "action": "update",
+                    "field_name": "status",
+                    "log_id": "2886",
+                    "new_value": "active",
+                    "old_value": "inactive",
+                    "reference_id": "15",
+                    "reference_type": "users",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "15"
+                }
+            }
+        ],
+        "outputs": [],
+        "edges": [
+            {
+                "from": "instruction",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "email",
+                    "input": "filters.email"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "requester_email"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "filters.user_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "search_job_entities",
+                "connection": {
+                    "output": "entity_type, position_id",
+                    "input": "entity_type, filters.position_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_employee",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "user_id"
+                }
+            },
+            {
+                "from": "search_job_entities",
+                "to": "handle_employee",
+                "connection": {
+                    "output": "results[0].position_id",
+                    "input": "position_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_employee",
+                "connection": {
+                    "output": "hire_date, employment_status, action",
+                    "input": "hire_date, employment_status, action"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_user",
+                "connection": {
+                    "output": "results[0].user_id, results[0].email, results[0].role",
+                    "input": "user_id, email, role"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_user",
+                "connection": {
+                    "output": "status, action",
+                    "input": "status, action"
+                }
+            },
+            {
+                "from": "handle_employee",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "employee_data.employee_id, employee_data.employee_id",
+                    "input": "new_value, reference_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "user_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "action, field_name, reference_type, operation",
+                    "input": "action, field_name, reference_type, operation"
+                }
+            },
+            {
+                "from": "handle_user",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "user_data.status",
+                    "input": "new_value"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].status, results[0].user_id",
+                    "input": "old_value, reference_id"
+                }
+            }
+        ],
+        "num_edges": 14
+    }
+}
