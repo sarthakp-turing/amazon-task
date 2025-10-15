@@ -1,0 +1,587 @@
+{
+    "env": "hr_experts",
+    "model_provider": "fireworks",
+    "model": "qwen3-coder-480b-a35b-instruct",
+    "num_trials": 3,
+    "temperature": 1,
+    "interface_num": 2,
+    "task": {
+        "user_id": "2",
+        "instruction": "You are Tiffany Sandoval (tsandoval@hotmail.com), an HR Director. You need to initiate the offboarding process for Samuel Anderson (anderson871@outlook.com) employee ID 37, ensuring all pending payroll and active benefits are closed before changing employment status and recording the action in the system audit logs.",
+        "actions": [
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "email": "tsandoval@hotmail.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2023-10-29T07:08:15",
+                            "email": "tsandoval@hotmail.com",
+                            "first_name": "Tiffany",
+                            "last_name": "Sandoval",
+                            "mfa_enabled": true,
+                            "phone_number": "+16465221064",
+                            "role": "hr_director",
+                            "status": "active",
+                            "updated_at": "2025-04-19T05:39:06",
+                            "user_id": "2"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "validate_approval",
+                "arguments": {
+                    "action": "employee_offboarding",
+                    "requester_email": "tsandoval@hotmail.com"
+                },
+                "output": {
+                    "approval_valid": true,
+                    "approved_by": [
+                        "compliance_officer",
+                        "hr_manager"
+                    ],
+                    "message": "All required approvals received from: hr_manager, compliance_officer"
+                }
+            },
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "users",
+                    "filters": {
+                        "email": "anderson871@outlook.com"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "users",
+                    "results": [
+                        {
+                            "created_at": "2021-02-16T18:40:02",
+                            "email": "anderson871@outlook.com",
+                            "first_name": "Samuel",
+                            "last_name": "Anderson",
+                            "mfa_enabled": true,
+                            "phone_number": "+12562361486",
+                            "role": "employee",
+                            "status": "active",
+                            "updated_at": "2023-03-01T04:08:16",
+                            "user_id": "83"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_user_employee_entities",
+                "arguments": {
+                    "entity_type": "employees",
+                    "filters": {
+                        "user_id": "83"
+                    }
+                },
+                "output": {
+                    "count": 1,
+                    "entity_type": "employees",
+                    "results": [
+                        {
+                            "address": "143 Brandon Shoals Apt. 768, East Kimberly, PW 03934",
+                            "created_at": "2024-01-21T20:55:20",
+                            "date_of_birth": "1975-01-22",
+                            "employee_id": "37",
+                            "employment_status": "active",
+                            "hire_date": "2022-07-22",
+                            "hourly_rate": 125,
+                            "manager_id": null,
+                            "position_id": "49",
+                            "updated_at": "2025-06-02T10:46:30",
+                            "user_id": "83"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_payroll_entities",
+                "arguments": {
+                    "entity_type": "payroll_records",
+                    "filters": {
+                        "employee_id": "37"
+                    }
+                },
+                "output": {
+                    "count": 6,
+                    "entity_type": "payroll_records",
+                    "results": [
+                        {
+                            "approved_by": "35",
+                            "created_at": "2023-03-05T17:36:29",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 5.29,
+                            "pay_period_end": "2023-02-28",
+                            "pay_period_start": "2023-02-01",
+                            "payment_date": "2023-03-14",
+                            "payroll_id": "205",
+                            "status": "paid",
+                            "updated_at": "2024-07-29T08:50:15"
+                        },
+                        {
+                            "approved_by": "36",
+                            "created_at": "2023-12-01T12:11:49",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 9.55,
+                            "pay_period_end": "2023-11-30",
+                            "pay_period_start": "2023-11-01",
+                            "payment_date": "2023-12-11",
+                            "payroll_id": "206",
+                            "status": "paid",
+                            "updated_at": "2024-03-24T16:06:39"
+                        },
+                        {
+                            "approved_by": "36",
+                            "created_at": "2025-01-01T02:51:18",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 12.5,
+                            "pay_period_end": "2024-12-31",
+                            "pay_period_start": "2024-12-01",
+                            "payment_date": null,
+                            "payroll_id": "207",
+                            "status": "approved",
+                            "updated_at": "2025-05-06T16:50:02"
+                        },
+                        {
+                            "approved_by": "33",
+                            "created_at": "2025-03-05T06:13:10",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 8.6,
+                            "pay_period_end": "2025-02-28",
+                            "pay_period_start": "2025-02-01",
+                            "payment_date": null,
+                            "payroll_id": "208",
+                            "status": "approved",
+                            "updated_at": "2025-04-17T16:31:45"
+                        },
+                        {
+                            "approved_by": "33",
+                            "created_at": "2025-06-01T04:16:43",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 3.95,
+                            "pay_period_end": "2025-05-31",
+                            "pay_period_start": "2025-05-01",
+                            "payment_date": "2025-06-10",
+                            "payroll_id": "209",
+                            "status": "paid",
+                            "updated_at": "2025-07-01T12:24:35"
+                        },
+                        {
+                            "approved_by": "36",
+                            "created_at": "2025-08-04T04:31:33",
+                            "employee_id": "37",
+                            "hourly_rate": 125.0,
+                            "hours_worked": 21.52,
+                            "pay_period_end": "2025-07-31",
+                            "pay_period_start": "2025-07-01",
+                            "payment_date": "2025-08-11",
+                            "payroll_id": "210",
+                            "status": "paid",
+                            "updated_at": "2025-08-05T03:46:56"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_benefits_entities",
+                "arguments": {
+                    "entity_type": "employee_benefits",
+                    "filters": {
+                        "employee_id": "37"
+                    }
+                },
+                "output": {
+                    "count": 2,
+                    "entity_type": "employee_benefits",
+                    "results": [
+                        {
+                            "beneficiary_name": "Samuel Anderson",
+                            "beneficiary_relationship": "self",
+                            "coverage_level": "employee_only",
+                            "created_at": "2024-08-24T01:11:02",
+                            "employee_id": "37",
+                            "enrollment_date": "2023-07-14",
+                            "enrollment_id": "101",
+                            "plan_id": "47",
+                            "status": "active",
+                            "updated_at": "2024-11-17T06:06:53"
+                        },
+                        {
+                            "beneficiary_name": "Samuel Anderson",
+                            "beneficiary_relationship": "self",
+                            "coverage_level": "employee_only",
+                            "created_at": "2025-07-27T00:11:21",
+                            "employee_id": "37",
+                            "enrollment_date": "2025-07-04",
+                            "enrollment_id": "102",
+                            "plan_id": "52",
+                            "status": "active",
+                            "updated_at": "2025-08-10T18:37:43"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "search_training_entities",
+                "arguments": {
+                    "entity_type": "employee_training",
+                    "filters": {
+                        "employee_id": "37"
+                    }
+                },
+                "output": {
+                    "count": 5,
+                    "entity_type": "employee_training",
+                    "results": [
+                        {
+                            "certificate_issued": true,
+                            "completion_date": "2025-08-12",
+                            "created_at": "2024-12-25T03:28:18",
+                            "employee_id": "37",
+                            "enrollment_date": "2024-12-25",
+                            "expiry_date": null,
+                            "program_id": "34",
+                            "score": 73.51,
+                            "status": "completed",
+                            "training_record_id": "119",
+                            "updated_at": "2025-06-13T08:21:32"
+                        },
+                        {
+                            "certificate_issued": false,
+                            "completion_date": null,
+                            "created_at": "2024-01-29T15:37:04",
+                            "employee_id": "37",
+                            "enrollment_date": "2024-01-28",
+                            "expiry_date": null,
+                            "program_id": "1",
+                            "score": null,
+                            "status": "in_progress",
+                            "training_record_id": "120",
+                            "updated_at": "2024-07-12T19:25:02"
+                        },
+                        {
+                            "certificate_issued": false,
+                            "completion_date": null,
+                            "created_at": "2025-07-01T16:30:46",
+                            "employee_id": "37",
+                            "enrollment_date": "2025-06-30",
+                            "expiry_date": null,
+                            "program_id": "37",
+                            "score": null,
+                            "status": "cancelled",
+                            "training_record_id": "121",
+                            "updated_at": "2025-08-24T16:30:25"
+                        },
+                        {
+                            "certificate_issued": false,
+                            "completion_date": null,
+                            "created_at": "2023-09-12T13:34:45",
+                            "employee_id": "37",
+                            "enrollment_date": "2023-09-12",
+                            "expiry_date": null,
+                            "program_id": "3",
+                            "score": null,
+                            "status": "enrolled",
+                            "training_record_id": "122",
+                            "updated_at": "2024-08-24T13:51:45"
+                        },
+                        {
+                            "certificate_issued": false,
+                            "completion_date": "2025-05-28",
+                            "created_at": "2024-01-29T14:53:25",
+                            "employee_id": "37",
+                            "enrollment_date": "2024-01-29",
+                            "expiry_date": null,
+                            "program_id": "49",
+                            "score": 66.74,
+                            "status": "completed",
+                            "training_record_id": "123",
+                            "updated_at": "2024-10-07T14:00:09"
+                        }
+                    ],
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_employee",
+                "arguments": {
+                    "action": "update",
+                    "employee_id": "37",
+                    "employment_status": "inactive",
+                    "position_id": "49"
+                },
+                "output": {
+                    "employee_data": {
+                        "address": "143 Brandon Shoals Apt. 768, East Kimberly, PW 03934",
+                        "created_at": "2024-01-21T20:55:20",
+                        "date_of_birth": "1975-01-22",
+                        "employee_id": "37",
+                        "employment_status": "inactive",
+                        "hire_date": "2022-07-22",
+                        "hourly_rate": 125,
+                        "manager_id": null,
+                        "position_id": "49",
+                        "updated_at": "2025-10-01T12:00:00",
+                        "user_id": "83"
+                    },
+                    "employee_id": "37",
+                    "message": "Employee with ID '37' updated successfully",
+                    "success": true
+                }
+            },
+            {
+                "name": "handle_user",
+                "arguments": {
+                    "action": "update",
+                    "status": "inactive",
+                    "user_id": "83"
+                },
+                "output": {
+                    "message": "User 83 updated successfully",
+                    "success": true,
+                    "updated_fields": [
+                        "status"
+                    ],
+                    "user_data": {
+                        "created_at": "2021-02-16T18:40:02",
+                        "email": "anderson871@outlook.com",
+                        "first_name": "Samuel",
+                        "last_name": "Anderson",
+                        "mfa_enabled": true,
+                        "phone_number": "+12562361486",
+                        "role": "employee",
+                        "status": "inactive",
+                        "updated_at": "2025-10-01T12:00:00",
+                        "user_id": "83"
+                    }
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "update",
+                    "field_name": "employment_status",
+                    "new_value": "inactive",
+                    "old_value": "active",
+                    "operation": "create",
+                    "reference_id": "37",
+                    "reference_type": "employees",
+                    "user_id": "83"
+                },
+                "output": {
+                    "action": "update",
+                    "field_name": "employment_status",
+                    "log_id": "2885",
+                    "new_value": "inactive",
+                    "old_value": "active",
+                    "reference_id": "37",
+                    "reference_type": "employees",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "83"
+                }
+            },
+            {
+                "name": "handle_audit_logs",
+                "arguments": {
+                    "action": "update",
+                    "field_name": "status",
+                    "new_value": "inactive",
+                    "old_value": "active",
+                    "operation": "create",
+                    "reference_id": "83",
+                    "reference_type": "users",
+                    "user_id": "83"
+                },
+                "output": {
+                    "action": "update",
+                    "field_name": "status",
+                    "log_id": "2886",
+                    "new_value": "inactive",
+                    "old_value": "active",
+                    "reference_id": "83",
+                    "reference_type": "users",
+                    "timestamp": "2025-10-01T12:00:00",
+                    "user_id": "83"
+                }
+            }
+        ],
+        "outputs": [],
+        "edges": [
+            {
+                "from": "instruction",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "entity_type, email",
+                    "input": "entity_type, filters.email"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "results[0].email",
+                    "input": "requester_email"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "validate_approval",
+                "connection": {
+                    "output": "action",
+                    "input": "action"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "entity_type, email",
+                    "input": "entity_type, filters.email"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "search_user_employee_entities",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "filters.user_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "search_payroll_entities",
+                "connection": {
+                    "output": "results[0].employee_id",
+                    "input": "filters.employee_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "search_benefits_entities",
+                "connection": {
+                    "output": "results[0].employee_id",
+                    "input": "filters.employee_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "search_training_entities",
+                "connection": {
+                    "output": "results[0].employee_id",
+                    "input": "filters.employee_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_employee",
+                "connection": {
+                    "output": "results[0].employee_id",
+                    "input": "employee_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_employee",
+                "connection": {
+                    "output": "action, employment_status, position_id",
+                    "input": "action, employment_status, position_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_user",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "user_id"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_user",
+                "connection": {
+                    "output": "action, status",
+                    "input": "action, status"
+                }
+            },
+            {
+                "from": "handle_employee",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "employee_data.employment_status, employee_data.employee_id",
+                    "input": "new_value, reference_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].employment_status",
+                    "input": "old_value"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "action, field_name, operation, reference_type",
+                    "input": "action, field_name, operation, reference_type"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].user_id",
+                    "input": "user_id"
+                }
+            },
+            {
+                "from": "handle_user",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "user_data.status, user_data.user_id",
+                    "input": "new_value, reference_id"
+                }
+            },
+            {
+                "from": "search_user_employee_entities",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "results[0].status",
+                    "input": "old_value"
+                }
+            },
+            {
+                "from": "instruction",
+                "to": "handle_audit_logs",
+                "connection": {
+                    "output": "action, field_name, operation, reference_type",
+                    "input": "action, field_name, operation, reference_type"
+                }
+            }
+        ],
+        "num_edges": 19
+    }
+}
