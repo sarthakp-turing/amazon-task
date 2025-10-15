@@ -7,7 +7,7 @@
     "interface_num": 2,
     "task": {
         "user_id": "2",
-        "instruction": "You are Tiffany Sandoval. You want to declare the skill as active and change its name to Cloud Infrastructure Management in order to update it with ID 12.",
+        "instruction": "You are Tiffany Sandoval. You need to update the name of the Kubernetes to Cloud Infrastructure Management skill in the system.",
         "actions": [
             {
                 "name": "search_user_employee_entities",
@@ -54,7 +54,7 @@
                 "arguments": {
                     "entity_type": "skills",
                     "filters": {
-                        "skill_id": "12"
+                        "skill_name": "Kubernetes"
                     }
                 },
                 "output": {
@@ -145,8 +145,8 @@
                 "from": "instruction",
                 "to": "search_job_entities",
                 "connection": {
-                    "output": "skill_id, entity_type",
-                    "input": "filters.skill_id, entity_type"
+                    "output": "skill_name, entity_type",
+                    "input": "filters.skill_name, entity_type"
                 }
             },
             {
